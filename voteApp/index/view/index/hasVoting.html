@@ -1,0 +1,74 @@
+﻿<!-- saved from url=(0044)file:///G:/implement/wamp/www/text/vote.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/vote/static/css/materialize.min.css"  media="screen,projection"/>
+    <!--Import index.css-->
+    <link type="text/css" rel="stylesheet" href="/vote/static/css/index.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div class="container">
+    <img id="title" src="/vote/static/0.jpg">
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="card-panel">
+                <span class="blue-text text-darken-2">
+                    开始时间：&nbsp2018/4/18<br>
+                    截止时间：&nbsp2018/4/20<br>
+                    <p id="divDown"></p>
+                </span>
+                <span class="red-text">每人每天可投一票</span>
+            </div>
+        </div>
+    </div>
+    <div id="con" class="row">
+        {volist name="list" id="vo"}
+        <div class="col s12 m6 l4 xl3">
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="img" src="{$vo.pic}">
+                    <span class="grey-text text-darken-2">得票数: <span>{$vo.voter_number}</span></span>
+                </div>
+                <div class="card-content">
+                    <p>{$vo.player_name}</p>
+                    <p style="text-indent:8%;">{$vo.message}</p>
+		    <p>参赛宣言：{$vo.declaration}</p>
+                </div>
+                <div class="valign-wrapper">
+                    <a class="btn vote grey">您已投票</a>
+                </div>
+            </div>
+            <input type="hidden" name="player_id" value="{$vo.player_id}">
+        </div>
+        {/volist}
+    </div>
+</div>
+<script src="/vote/static/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="/vote/static/js/index.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+    var interval = 1000;
+    function ShowCountDown(year,month,day,divname)
+    {
+        var now = new Date();
+        var endDate = new Date(year, month-1, day);
+        var leftTime=endDate.getTime()-now.getTime();
+        var leftSecond = parseInt(leftTime/1000);
+        //var day1=parseInt(leftSecond/(24*60*60*6));
+        var day1=Math.floor(leftSecond/(60*60*24));
+        var hour=Math.floor((leftSecond-day1*24*60*60)/3600);
+        var minute=Math.floor((leftSecond-day1*24*60*60-hour*3600)/60);
+        var second=Math.floor(leftSecond-day1*24*60*60-hour*3600-minute*60);
+        var cc = document.getElementById(divname);
+        cc.innerHTML = "距离截止还有："+day1+"天"+hour+"小时"+minute+"分"+second+"秒";
+    }
+    window.setInterval(function(){ShowCountDown(2018,4,20,'divDown');}, interval);
+</script>
+</body>
+</html>
